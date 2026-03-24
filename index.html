@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Equipo Shinobis</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Noto+Serif+JP:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --crimson: #8B1A1A;
+    --crimson-light: #C0392B;
+    --gold: #C9A84C;
+    --gold-light: #E8C96A;
+    --obsidian: #0A0A0F;
+    --obsidian-mid: #12121C;
+    --obsidian-light: #1A1A2E;
+    --smoke: #2C2C3E;
+    --mist: #6B6B8A;
+    --pale: #D4D0C8;
+    --white: #F0EDE0;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--obsidian);
+    font-family: 'Cinzel', serif;
+    color: var(--white);
+    overflow-x: hidden;
+    min-height: 100vh;
+  }
+
+  /* NOISE TEXTURE OVERLAY */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.5;
+  }
+
+  .container {
+    position: relative;
+    z-index: 1;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 24px 60px;
+  }
+
+  /* HEADER */
+  .header {
+    text-align: center;
+    padding: 60px 0 40px;
+    position: relative;
+  }
+
+  .header::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 50%;
+    transform: translateX(-50%);
+    width: 1px;
+    height: 50px;
+    background: linear-gradient(to bottom, transparent, var(--gold));
+  }
+
+  .kanji-bg {
+    position: absolute;
+    top: 40px; left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Noto Serif JP', serif;
+    font-size: 180px;
+    color: rgba(139, 26, 26, 0.06);
+    letter-spacing: -10px;
+    pointer-events: none;
+    white-space: nowrap;
+    user-select: none;
+    line-height: 1;
+  }
+
+  .team-label {
+    font-size: 11px;
+    letter-spacing: 8px;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+
+  .team-title {
+    font-size: clamp(52px, 10vw, 88px);
+    font-weight: 900;
+    letter-spacing: 10px;
+    color: var(--white);
+    text-shadow: 0 0 60px rgba(201, 168, 76, 0.3);
+    line-height: 1;
+    position: relative;
+  }
+
+  .team-title span {
+    color: var(--gold);
+  }
+
+  .team-subtitle {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 13px;
+    color: var(--mist);
+    letter-spacing: 4px;
+    margin-top: 16px;
+    font-weight: 300;
+  }
+
+  /* DIVIDER */
+  .divider {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin: 40px 0;
+  }
+  .divider::before, .divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--gold), transparent);
+    opacity: 0.4;
+  }
+  .divider-icon {
+    color: var(--gold);
+    font-size: 18px;
+    opacity: 0.7;
+  }
+
+  /* DESCRIPTION */
+  .team-description {
+    text-align: center;
+    font-family: 'Noto Serif JP', serif;
+    font-size: 14px;
+    color: var(--pale);
+    line-height: 1.9;
+    max-width: 600px;
+    margin: 0 auto 50px;
+    font-weight: 300;
+    letter-spacing: 0.5px;
+  }
+
+  /* RANKS GRID */
+  .ranks-title {
+    text-align: center;
+    font-size: 10px;
+    letter-spacing: 6px;
+    color: var(--gold);
+    margin-bottom: 32px;
+    text-transform: uppercase;
+  }
+
+  .ranks-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2px;
+    margin-bottom: 2px;
+  }
+
+  /* RANK CARD */
+  .rank-card {
+    position: relative;
+    background: var(--obsidian-mid);
+    border: 1px solid rgba(201, 168, 76, 0.1);
+    padding: 32px 28px;
+    overflow: hidden;
+    transition: border-color 0.4s, transform 0.3s;
+    cursor: default;
+  }
+
+  .rank-card:hover {
+    border-color: rgba(201, 168, 76, 0.35);
+    transform: translateY(-2px);
+  }
+
+  /* Rank accent corner */
+  .rank-card::before {
+    content: '';
+    position: absolute;
+    top: 0; right: 0;
+    width: 0; height: 0;
+    border-style: solid;
+    border-width: 0 40px 40px 0;
+    border-color: transparent var(--card-accent, rgba(139,26,26,0.5)) transparent transparent;
+    transition: border-color 0.3s;
+  }
+
+  .rank-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(to right, var(--card-accent, #8B1A1A), transparent);
+    opacity: 0;
+    transition: opacity 0.4s;
+  }
+
+  .rank-card:hover::after {
+    opacity: 1;
+  }
+
+  /* Glow background on hover */
+  .rank-card .glow {
+    position: absolute;
+    top: -40px; right: -40px;
+    width: 150px; height: 150px;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--card-accent, rgba(139,26,26,0.2)) 0%, transparent 70%);
+    opacity: 0;
+    transition: opacity 0.5s;
+    pointer-events: none;
+  }
+  .rank-card:hover .glow { opacity: 1; }
+
+  /* Individual rank accents */
+  .rank-card[data-rank="genin"] { --card-accent: rgba(74, 108, 90, 0.8); }
+  .rank-card[data-rank="chunin"] { --card-accent: rgba(45, 90, 160, 0.8); }
+  .rank-card[data-rank="junin"] { --card-accent: rgba(140, 80, 25, 0.8); }
+  .rank-card[data-rank="anbu"] { --card-accent: rgba(100, 20, 20, 0.9); }
+
+  .rank-number {
+    font-size: 11px;
+    letter-spacing: 4px;
+    color: var(--mist);
+    margin-bottom: 12px;
+    font-family: 'Cinzel', serif;
+  }
+
+  .rank-kanji {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 32px;
+    margin-bottom: 6px;
+    line-height: 1;
+  }
+
+  .rank-card[data-rank="genin"] .rank-kanji { color: #6BAE82; }
+  .rank-card[data-rank="chunin"] .rank-kanji { color: #5B8ECC; }
+  .rank-card[data-rank="junin"] .rank-kanji { color: #CC8C40; }
+  .rank-card[data-rank="anbu"] .rank-kanji { color: #CC3333; }
+
+  .rank-name {
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+    color: var(--white);
+  }
+
+  .rank-translation {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 11px;
+    color: var(--mist);
+    letter-spacing: 2px;
+    margin-bottom: 20px;
+    font-weight: 300;
+  }
+
+  .rank-divider {
+    width: 40px;
+    height: 1px;
+    margin-bottom: 20px;
+    opacity: 0.6;
+  }
+
+  .rank-card[data-rank="genin"] .rank-divider { background: #6BAE82; }
+  .rank-card[data-rank="chunin"] .rank-divider { background: #5B8ECC; }
+  .rank-card[data-rank="junin"] .rank-divider { background: #CC8C40; }
+  .rank-card[data-rank="anbu"] .rank-divider { background: #CC3333; }
+
+  .rank-description {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 13px;
+    color: var(--pale);
+    line-height: 1.8;
+    font-weight: 300;
+  }
+
+  .rank-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 18px;
+    padding: 5px 12px;
+    border-radius: 2px;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    font-family: 'Cinzel', serif;
+    border: 1px solid;
+  }
+
+  .rank-card[data-rank="genin"] .rank-badge { color: #6BAE82; border-color: rgba(107,174,130,0.3); background: rgba(107,174,130,0.07); }
+  .rank-card[data-rank="chunin"] .rank-badge { color: #5B8ECC; border-color: rgba(91,142,204,0.3); background: rgba(91,142,204,0.07); }
+  .rank-card[data-rank="junin"] .rank-badge { color: #CC8C40; border-color: rgba(204,140,64,0.3); background: rgba(204,140,64,0.07); }
+  .rank-card[data-rank="anbu"] .rank-badge { color: #CC3333; border-color: rgba(204,51,51,0.3); background: rgba(204,51,51,0.07); }
+
+  /* PYRAMID VISUAL */
+  .hierarchy-section {
+    margin-top: 2px;
+    background: var(--obsidian-mid);
+    border: 1px solid rgba(201, 168, 76, 0.1);
+    padding: 40px 32px;
+    text-align: center;
+  }
+
+  .hierarchy-title {
+    font-size: 10px;
+    letter-spacing: 6px;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 32px;
+  }
+
+  .pyramid {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  .pyramid-tier {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 44px;
+    border-radius: 2px;
+    font-size: 12px;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    font-weight: 700;
+    transition: transform 0.2s, opacity 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .pyramid-tier::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to right, transparent, rgba(255,255,255,0.03), transparent);
+  }
+
+  .pyramid-tier:hover { transform: scaleX(1.02); opacity: 1 !important; }
+
+  .pyramid-tier[data-t="anbu"]  { width: 30%;  background: rgba(139,26,26,0.5);  border: 1px solid rgba(204,51,51,0.4); color: #FF6B6B; }
+  .pyramid-tier[data-t="junin"] { width: 50%;  background: rgba(100,60,10,0.5);  border: 1px solid rgba(204,140,64,0.4); color: #E8A850; }
+  .pyramid-tier[data-t="chunin"]{ width: 70%;  background: rgba(20,50,100,0.5);  border: 1px solid rgba(91,142,204,0.4); color: #7BAED8; }
+  .pyramid-tier[data-t="genin"] { width: 90%;  background: rgba(30,70,50,0.4);   border: 1px solid rgba(107,174,130,0.4); color: #7DC498; }
+
+  /* FOOTER */
+  .footer {
+    text-align: center;
+    margin-top: 50px;
+    padding-top: 30px;
+    position: relative;
+  }
+
+  .footer::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--gold), transparent);
+    opacity: 0.4;
+  }
+
+  .footer-seal {
+    font-size: 28px;
+    margin-bottom: 10px;
+    opacity: 0.6;
+  }
+
+  .footer-text {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 11px;
+    color: var(--mist);
+    letter-spacing: 3px;
+    font-weight: 300;
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .header        { animation: fadeUp 0.8s ease both; }
+  .team-description { animation: fadeUp 0.8s ease 0.2s both; }
+  .rank-card:nth-child(1) { animation: fadeUp 0.6s ease 0.3s both; }
+  .rank-card:nth-child(2) { animation: fadeUp 0.6s ease 0.4s both; }
+  .rank-card:nth-child(3) { animation: fadeUp 0.6s ease 0.5s both; }
+  .rank-card:nth-child(4) { animation: fadeUp 0.6s ease 0.6s both; }
+  .hierarchy-section { animation: fadeUp 0.6s ease 0.7s both; }
+
+  @media (max-width: 600px) {
+    .ranks-grid { grid-template-columns: 1fr; }
+    .team-title { letter-spacing: 4px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="kanji-bg">忍者</div>
+    <p class="team-label">Equipo de Moderación</p>
+    <h1 class="team-title">SHIN<span>O</span>BIS</h1>
+    <p class="team-subtitle">忍び — 忍耐と誠実さ — Los que perseveran en las sombras</p>
+  </header>
+
+  <div class="divider">
+    <span class="divider-icon">✦</span>
+  </div>
+
+  <!-- DESCRIPCIÓN -->
+  <p class="team-description">
+    El Equipo Shinobis es la división de moderación encargada de mantener el orden y la armonía en la comunidad. 
+    Sus miembros operan bajo un estricto código de honor, ascendiendo a través de rangos según su experiencia, 
+    dedicación y habilidad en el cumplimiento de su misión.
+  </p>
+
+  <!-- JERARQUÍA DE RANGOS -->
+  <p class="ranks-title">— División de rangos —</p>
+
+  <div class="ranks-grid">
+
+    <!-- GENIN -->
+    <div class="rank-card" data-rank="genin">
+      <div class="glow"></div>
+      <p class="rank-number">RANGO I</p>
+      <p class="rank-kanji">下忍</p>
+      <h2 class="rank-name">Genin</h2>
+      <p class="rank-translation">Ninja de nivel bajo</p>
+      <div class="rank-divider"></div>
+      <p class="rank-description">
+        El punto de entrada al equipo. Los Genin son moderadores en formación que aprenden las normas, 
+        herramientas y responsabilidades básicas de la moderación bajo supervisión directa de rangos superiores.
+      </p>
+      <span class="rank-badge">⬡ Iniciado</span>
+    </div>
+
+    <!-- CHUNIN -->
+    <div class="rank-card" data-rank="chunin">
+      <div class="glow"></div>
+      <p class="rank-number">RANGO II</p>
+      <p class="rank-kanji">中忍</p>
+      <h2 class="rank-name">Chūnin</h2>
+      <p class="rank-translation">Ninja de nivel intermedio</p>
+      <div class="rank-divider"></div>
+      <p class="rank-description">
+        Moderadores con experiencia probada que pueden actuar de forma autónoma. Gestionan situaciones 
+        de mayor complejidad y sirven de guía para los Genin recién integrados al equipo.
+      </p>
+      <span class="rank-badge">⬡ Moderador</span>
+    </div>
+
+    <!-- JUNIN -->
+    <div class="rank-card" data-rank="junin">
+      <div class="glow"></div>
+      <p class="rank-number">RANGO III</p>
+      <p class="rank-kanji">上忍</p>
+      <h2 class="rank-name">Jōnin</h2>
+      <p class="rank-translation">Ninja de alto nivel</p>
+      <div class="rank-divider"></div>
+      <p class="rank-description">
+        Moderadores de élite con profundo dominio de las normas y alta capacidad de liderazgo. 
+        Coordinan operaciones, toman decisiones críticas y forman a los rangos inferiores.
+      </p>
+      <span class="rank-badge">⬡ Veterano</span>
+    </div>
+
+    <!-- ANBU -->
+    <div class="rank-card" data-rank="anbu">
+      <div class="glow"></div>
+      <p class="rank-number">RANGO IV</p>
+      <p class="rank-kanji">暗部</p>
+      <h2 class="rank-name">ANBU</h2>
+      <p class="rank-translation">Cuerpo de operaciones especiales</p>
+      <div class="rank-divider"></div>
+      <p class="rank-description">
+        La cúpula del equipo. Los ANBU son los moderadores más confiables y experimentados, 
+        encargados de las decisiones más delicadas, la supervisión general y la integridad del equipo.
+      </p>
+      <span class="rank-badge">⬡ Élite</span>
+    </div>
+
+  </div>
+
+  <!-- PIRÁMIDE JERÁRQUICA -->
+  <div class="hierarchy-section">
+    <p class="hierarchy-title">— Jerarquía —</p>
+    <div class="pyramid">
+      <div class="pyramid-tier" data-t="anbu">ANBU</div>
+      <div class="pyramid-tier" data-t="junin">JŌNIN</div>
+      <div class="pyramid-tier" data-t="chunin">CHŪNIN</div>
+      <div class="pyramid-tier" data-t="genin">GENIN</div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-seal">⛩</div>
+    <p class="footer-text">忍耐 · Perseverancia · Honor · Dedicación</p>
+  </footer>
+
+</div>
+</body>
+</html>

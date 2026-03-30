@@ -41,9 +41,28 @@
     opacity: 0.5;
   }
 
+  /* ── CANVAS DE EFECTOS ── */
+  #fx-canvas {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Viñeta central para mantener legibilidad */
+  .vignette {
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(ellipse at 50% 50%, transparent 25%, rgba(6,6,10,0.75) 100%);
+    pointer-events: none;
+    z-index: 1;
+  }
+
   .container {
     position: relative;
-    z-index: 1;
+    z-index: 2;
     max-width: 900px;
     margin: 0 auto;
     padding: 0 24px 60px;
@@ -164,8 +183,9 @@
   /* RANK CARD */
   .rank-card {
     position: relative;
-    background: var(--obsidian-mid);
-    border: 1px solid rgba(201, 168, 76, 0.1);
+    background: rgba(10, 10, 15, 0.25);
+    backdrop-filter: blur(2px);
+    border: 1px solid rgba(201, 168, 76, 0.18);
     padding: 32px 28px;
     overflow: hidden;
     transition: border-color 0.4s, transform 0.3s;
@@ -217,10 +237,10 @@
   .rank-card:hover .glow { opacity: 1; }
 
   /* Individual rank accents */
-  .rank-card[data-rank="genin"] { --card-accent: rgba(74, 108, 90, 0.8); }
+  .rank-card[data-rank="genin"]  { --card-accent: rgba(74, 108, 90, 0.8); }
   .rank-card[data-rank="chunin"] { --card-accent: rgba(45, 90, 160, 0.8); }
-  .rank-card[data-rank="junin"] { --card-accent: rgba(140, 80, 25, 0.8); }
-  .rank-card[data-rank="anbu"] { --card-accent: rgba(100, 20, 20, 0.9); }
+  .rank-card[data-rank="junin"]  { --card-accent: rgba(140, 80, 25, 0.8); }
+  .rank-card[data-rank="anbu"]   { --card-accent: rgba(100, 20, 20, 0.9); }
 
   .rank-number {
     font-size: 11px;
@@ -237,10 +257,10 @@
     line-height: 1;
   }
 
-  .rank-card[data-rank="genin"] .rank-kanji { color: #6BAE82; }
+  .rank-card[data-rank="genin"]  .rank-kanji { color: #6BAE82; }
   .rank-card[data-rank="chunin"] .rank-kanji { color: #5B8ECC; }
-  .rank-card[data-rank="junin"] .rank-kanji { color: #CC8C40; }
-  .rank-card[data-rank="anbu"] .rank-kanji { color: #CC3333; }
+  .rank-card[data-rank="junin"]  .rank-kanji { color: #CC8C40; }
+  .rank-card[data-rank="anbu"]   .rank-kanji { color: #CC3333; }
 
   .rank-name {
     font-size: 24px;
@@ -267,10 +287,10 @@
     opacity: 0.6;
   }
 
-  .rank-card[data-rank="genin"] .rank-divider { background: #6BAE82; }
+  .rank-card[data-rank="genin"]  .rank-divider { background: #6BAE82; }
   .rank-card[data-rank="chunin"] .rank-divider { background: #5B8ECC; }
-  .rank-card[data-rank="junin"] .rank-divider { background: #CC8C40; }
-  .rank-card[data-rank="anbu"] .rank-divider { background: #CC3333; }
+  .rank-card[data-rank="junin"]  .rank-divider { background: #CC8C40; }
+  .rank-card[data-rank="anbu"]   .rank-divider { background: #CC3333; }
 
   .rank-description {
     font-family: 'Noto Serif JP', serif;
@@ -294,16 +314,17 @@
     border: 1px solid;
   }
 
-  .rank-card[data-rank="genin"] .rank-badge { color: #6BAE82; border-color: rgba(107,174,130,0.3); background: rgba(107,174,130,0.07); }
-  .rank-card[data-rank="chunin"] .rank-badge { color: #5B8ECC; border-color: rgba(91,142,204,0.3); background: rgba(91,142,204,0.07); }
-  .rank-card[data-rank="junin"] .rank-badge { color: #CC8C40; border-color: rgba(204,140,64,0.3); background: rgba(204,140,64,0.07); }
-  .rank-card[data-rank="anbu"] .rank-badge { color: #CC3333; border-color: rgba(204,51,51,0.3); background: rgba(204,51,51,0.07); }
+  .rank-card[data-rank="genin"]  .rank-badge { color: #6BAE82; border-color: rgba(107,174,130,0.3); background: rgba(107,174,130,0.07); }
+  .rank-card[data-rank="chunin"] .rank-badge { color: #5B8ECC; border-color: rgba(91,142,204,0.3);  background: rgba(91,142,204,0.07);  }
+  .rank-card[data-rank="junin"]  .rank-badge { color: #CC8C40; border-color: rgba(204,140,64,0.3);  background: rgba(204,140,64,0.07);  }
+  .rank-card[data-rank="anbu"]   .rank-badge { color: #CC3333; border-color: rgba(204,51,51,0.3);   background: rgba(204,51,51,0.07);   }
 
   /* PYRAMID VISUAL */
   .hierarchy-section {
     margin-top: 2px;
-    background: var(--obsidian-mid);
-    border: 1px solid rgba(201, 168, 76, 0.1);
+    background: rgba(10, 10, 15, 0.25);
+    backdrop-filter: blur(2px);
+    border: 1px solid rgba(201, 168, 76, 0.18);
     padding: 40px 32px;
     text-align: center;
   }
@@ -349,10 +370,10 @@
 
   .pyramid-tier:hover { transform: scaleX(1.02); opacity: 1 !important; }
 
-  .pyramid-tier[data-t="anbu"]  { width: 30%;  background: rgba(139,26,26,0.5);  border: 1px solid rgba(204,51,51,0.4); color: #FF6B6B; }
-  .pyramid-tier[data-t="junin"] { width: 50%;  background: rgba(100,60,10,0.5);  border: 1px solid rgba(204,140,64,0.4); color: #E8A850; }
-  .pyramid-tier[data-t="chunin"]{ width: 70%;  background: rgba(20,50,100,0.5);  border: 1px solid rgba(91,142,204,0.4); color: #7BAED8; }
-  .pyramid-tier[data-t="genin"] { width: 90%;  background: rgba(30,70,50,0.4);   border: 1px solid rgba(107,174,130,0.4); color: #7DC498; }
+  .pyramid-tier[data-t="anbu"]   { width: 30%; background: rgba(139,26,26,0.25);  border: 1px solid rgba(204,51,51,0.4);   color: #FF6B6B; }
+  .pyramid-tier[data-t="junin"]  { width: 50%; background: rgba(100,60,10,0.25);  border: 1px solid rgba(204,140,64,0.4);  color: #E8A850; }
+  .pyramid-tier[data-t="chunin"] { width: 70%; background: rgba(20,50,100,0.25);  border: 1px solid rgba(91,142,204,0.4);  color: #7BAED8; }
+  .pyramid-tier[data-t="genin"]  { width: 90%; background: rgba(30,70,50,0.25);   border: 1px solid rgba(107,174,130,0.4); color: #7DC498; }
 
   /* FOOTER */
   .footer {
@@ -393,8 +414,8 @@
     to   { opacity: 1; transform: translateY(0); }
   }
 
-  .header        { animation: fadeUp 0.8s ease both; }
-  .team-description { animation: fadeUp 0.8s ease 0.2s both; }
+  .header            { animation: fadeUp 0.8s ease both; }
+  .team-description  { animation: fadeUp 0.8s ease 0.2s both; }
   .rank-card:nth-child(1) { animation: fadeUp 0.6s ease 0.3s both; }
   .rank-card:nth-child(2) { animation: fadeUp 0.6s ease 0.4s both; }
   .rank-card:nth-child(3) { animation: fadeUp 0.6s ease 0.5s both; }
@@ -408,6 +429,11 @@
 </style>
 </head>
 <body>
+
+<!-- CANVAS DE EFECTOS DE FONDO -->
+<canvas id="fx-canvas"></canvas>
+<div class="vignette"></div>
+
 <div class="container">
 
   <!-- HEADER -->
@@ -514,5 +540,199 @@
   </footer>
 
 </div>
+
+<script>
+/* ══════════════════════════════════════════════════════
+   SISTEMA DE PARTÍCULAS: HUMO + ASCUAS DORADAS + CHISPAS
+══════════════════════════════════════════════════════ */
+const canvas = document.getElementById('fx-canvas');
+const ctx    = canvas.getContext('2d');
+let W, H;
+
+function resize() {
+  W = canvas.width  = window.innerWidth;
+  H = canvas.height = window.innerHeight;
+}
+resize();
+window.addEventListener('resize', resize);
+
+/* ── HUMO ── */
+class Smoke {
+  constructor(instant) {
+    this.reset(instant);
+  }
+  reset(instant) {
+    this.x       = Math.random() * W;
+    this.y       = H + 80;
+    this.vx      = (Math.random() - 0.5) * 0.35;
+    this.vy      = -(0.2 + Math.random() * 0.45);
+    this.r       = 50 + Math.random() * 110;
+    this.maxLife = 350 + Math.random() * 250;
+    this.life    = instant ? Math.floor(Math.random() * this.maxLife) : 0;
+    this.rot     = Math.random() * Math.PI * 2;
+    this.rotV    = (Math.random() - 0.5) * 0.002;
+    // Tono variable: humo oscuro con ligero tinte dorado
+    const v = Math.floor(18 + Math.random() * 20);
+    const g = Math.floor(v * 0.9);
+    const b = Math.floor(v * 0.55);
+    this.col = `${v},${g},${b}`;
+  }
+  update() {
+    this.x   += this.vx;
+    this.y   += this.vy;
+    this.r   += 0.15;
+    this.rot += this.rotV;
+    this.life++;
+    if (this.y + this.r < -100) this.reset(false);
+  }
+  draw() {
+    const p = this.life / this.maxLife;
+    const a = p < 0.15
+      ? (p / 0.15) * 0.10
+      : p > 0.65
+        ? ((1 - p) / 0.35) * 0.10
+        : 0.10;
+    if (a <= 0) return;
+
+    ctx.save();
+    ctx.translate(this.x, this.y);
+    ctx.rotate(this.rot);
+    const g = ctx.createRadialGradient(0, 0, 0, 0, 0, this.r);
+    g.addColorStop(0,   `rgba(${this.col},${a})`);
+    g.addColorStop(0.5, `rgba(${this.col},${a * 0.55})`);
+    g.addColorStop(1,   `rgba(${this.col},0)`);
+    ctx.fillStyle = g;
+    ctx.beginPath();
+    ctx.arc(0, 0, this.r, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.restore();
+  }
+}
+
+/* ── ASCUAS (EMBERS) ── */
+class Ember {
+  constructor(instant) {
+    this.reset(instant);
+  }
+  reset(instant) {
+    this.x       = Math.random() * W;
+    this.y       = H + 15;
+    this.vx      = (Math.random() - 0.5) * 1.0;
+    this.vy      = -(0.5 + Math.random() * 1.3);
+    this.r       = 0.7 + Math.random() * 1.8;
+    this.maxLife = 130 + Math.random() * 200;
+    this.life    = instant ? Math.floor(Math.random() * this.maxLife) : 0;
+    this.wobble  = Math.random() * Math.PI * 2;
+    this.wobbleS = 0.035 + Math.random() * 0.055;
+
+    // Paleta dorada: dorado puro, ambar, blanco cálido
+    const t = Math.random();
+    if      (t < 0.55) this.rgb = [220, 160,  25];  // dorado
+    else if (t < 0.82) this.rgb = [255, 120,  10];  // ambar-naranja
+    else               this.rgb = [255, 220, 130];  // blanco cálido
+  }
+  update() {
+    this.wobble += this.wobbleS;
+    this.x += this.vx + Math.sin(this.wobble) * 0.45;
+    this.y += this.vy;
+    this.vy -= 0.003;
+    this.life++;
+    if (this.life > this.maxLife || this.y < -20) this.reset(false);
+  }
+  draw() {
+    const p = this.life / this.maxLife;
+    const a = p < 0.12
+      ? p / 0.12
+      : p > 0.55
+        ? 1 - (p - 0.55) / 0.45
+        : 1;
+    if (a <= 0.01) return;
+
+    const [r, g, b] = this.rgb;
+    ctx.save();
+
+    // Halo exterior suave
+    ctx.globalAlpha = a * 0.22;
+    const halo = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.r * 4);
+    halo.addColorStop(0,   `rgba(${r},${g},${b},1)`);
+    halo.addColorStop(1,   `rgba(${r},${g},${b},0)`);
+    ctx.fillStyle = halo;
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.r * 4, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Núcleo brillante
+    ctx.globalAlpha = a * 0.92;
+    ctx.shadowColor = `rgb(${r},${g},${b})`;
+    ctx.shadowBlur  = 6;
+    ctx.fillStyle   = `rgb(${r},${g},${b})`;
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+    ctx.fill();
+
+    ctx.restore();
+  }
+}
+
+/* ── CHISPAS RÁPIDAS (STREAKS) ── */
+class Streak {
+  constructor() {
+    this.reset();
+  }
+  reset() {
+    this.x       = Math.random() * W;
+    this.y       = H * 0.3 + Math.random() * H * 0.65;
+    this.len     = 6 + Math.random() * 18;
+    this.angle   = -Math.PI / 2 + (Math.random() - 0.5) * 0.9;
+    this.speed   = 1.8 + Math.random() * 2.8;
+    this.maxLife = 20 + Math.random() * 25;
+    this.life    = 0;
+    this.delay   = Math.random() * 400;
+    this.alpha   = 0;
+  }
+  update() {
+    if (this.delay > 0) { this.delay--; return; }
+    this.x += Math.cos(this.angle) * this.speed;
+    this.y += Math.sin(this.angle) * this.speed;
+    this.life++;
+    const p = this.life / this.maxLife;
+    this.alpha = p < 0.25 ? p / 0.25 : 1 - (p - 0.25) / 0.75;
+    if (this.life > this.maxLife) this.reset();
+  }
+  draw() {
+    if (this.delay > 0 || this.alpha <= 0.02) return;
+    ctx.save();
+    ctx.globalAlpha = this.alpha * 0.65;
+    ctx.strokeStyle = `rgba(220,170,40,${this.alpha})`;
+    ctx.lineWidth   = 0.7;
+    ctx.shadowColor = '#C9A84C';
+    ctx.shadowBlur  = 7;
+    ctx.lineCap     = 'round';
+    ctx.beginPath();
+    ctx.moveTo(this.x, this.y);
+    ctx.lineTo(
+      this.x - Math.cos(this.angle) * this.len,
+      this.y - Math.sin(this.angle) * this.len
+    );
+    ctx.stroke();
+    ctx.restore();
+  }
+}
+
+/* ── INICIALIZAR ── */
+const smokes  = Array.from({ length: 24 }, () => new Smoke(true));
+const embers  = Array.from({ length: 60 }, () => new Ember(true));
+const streaks = Array.from({ length: 16 }, () => new Streak());
+
+/* ── LOOP ── */
+function loop() {
+  ctx.clearRect(0, 0, W, H);
+  smokes .forEach(p => { p.update(); p.draw(); });
+  embers .forEach(e => { e.update(); e.draw(); });
+  streaks.forEach(s => { s.update(); s.draw(); });
+  requestAnimationFrame(loop);
+}
+loop();
+</script>
 </body>
 </html>
